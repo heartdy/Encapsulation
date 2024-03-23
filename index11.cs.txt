@@ -1,0 +1,60 @@
+using System;
+
+public class GPACalculator
+{
+    // ประกาศตัวแปรเพื่อเก็บคะแนนแต่ละวิชาและหน่วยกิต
+    private double[] subjectScores;
+    private int[] creditHours;
+
+    // สร้าง Constructor ที่รับขนาดของอาร์เรย์ subjectScores และ creditHours
+    public GPACalculator(int size)
+    {
+        subjectScores = new double[size];
+        creditHours = new int[size];
+    }
+
+    // เพิ่มคะแนนและหน่วยกิตของวิชา
+    public void AddSubject(int index, double score, int credit)
+    {
+        if (index >= 0 && index < subjectScores.Length)
+        {
+            subjectScores[index] = score;
+            creditHours[index] = credit;
+        }
+        else
+        {
+            Console.WriteLine("Index out of range.");
+        }
+    }
+
+    // คำนวณ GPA โดยใช้ข้อมูลจาก subjectScores และ creditHours
+    public double CalculateGPA()
+    {
+        double totalGradePoints = 0;
+        int totalCredits = 0;
+
+        for (int i = 0; i < subjectScores.Length; i++)
+        {
+            totalGradePoints += GetGradePoint(subjectScores[i]) * creditHours[i];
+            totalCredits += creditHours[i];
+        }
+
+        if (totalCredits == 0)
+        {
+            Console.WriteLine("No credits available for GPA calculation.");
+            return 0;
+        }
+
+        return totalGradePoints / totalCredits;
+    }
+
+    // ฟังก์ชั่นเพื่อแปลงคะแนนเป็นเกรด
+    private double GetGradePoint(double score)
+    {
+        if (score >= 90) return 4.0;
+        else if (score >= 80) return 3.0;
+        else if (score >= 70) return 2.0;
+        else if (score >= 60) return 1.0;
+        else return 0.0;
+    }
+}
